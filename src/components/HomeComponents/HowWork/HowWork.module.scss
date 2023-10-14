@@ -1,0 +1,148 @@
+.wrapper {
+
+
+    .inner {
+
+        .How-Work {
+            background: #fff;
+            padding: 46px 0px;
+
+            h5 {
+                font-size: 32px;
+                font-weight: 600;
+                line-height: 40px;
+                letter-spacing: 0px;
+            }
+
+            h2 {
+                font-size: 56px;
+                font-weight: 700;
+                line-height: 50px;
+                letter-spacing: -1px;
+                text-align: center;
+                margin: 16px 0px;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.01em;
+                text-align: center;
+            }
+
+            .title--card {
+                display: flex;
+                align-items: center;
+                margin-bottom: 16px;
+
+                h4 {
+                    font-size: 32px;
+                    font-weight: 600;
+                    line-height: 40px;
+                    letter-spacing: -1px;
+                    margin: 0;
+                    padding-left: 6px;
+                }
+            }
+
+            .content--card--word {
+                nav {
+
+                    ul {
+
+                        li {
+                            font-size: 18px;
+                            font-weight: 400;
+                            line-height: 30px;
+                            letter-spacing: 0px;
+                            margin: 12px 0px;
+
+                            .mentioningor {
+                                background: #FFD102;
+                                padding: 2px 6px;
+                                border-radius: 6px;
+                                margin: 0px 4px;
+                            }
+                        }
+                    }
+                }
+
+                .dropMenu {
+                    margin-top: 12px;
+
+                    h6 {
+                        font-size: 18px;
+                        font-weight: 600;
+                        line-height: 23px;
+                        letter-spacing: 0px;
+                    }
+
+                    span {
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 23px;
+                        letter-spacing: 0px;
+                        color: #7E8492;
+                    }
+
+                    .reply {
+                        font-size: 18px;
+                        font-weight: 700;
+                        line-height: 23px;
+                        letter-spacing: 0px;
+                    }
+
+                    .quantity {
+                        font-size: 18px;
+                        font-weight: 400;
+                        line-height: 23px;
+                        letter-spacing: 0px;
+                        display: flex;
+                        align-items: center;
+
+                        img {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+
+@media screen and (max-width:576px) {
+    .How-Work {
+        padding: 40px 20px !important;
+    }
+
+    .content--card--word {
+        nav {
+
+            ul {
+
+                li {
+                    font-size: 15px !important;
+                    line-height: 30px !important;
+                    font-weight: 600 !important;
+                }
+            }
+        }
+    }
+
+    h2 {
+        font-size: 32px !important;
+    }
+
+}
+
+@media screen and (max-width: 375px) {
+    .title--card {
+
+        h4 {
+            font-size: 20px !important;
+        }
+    }
+}

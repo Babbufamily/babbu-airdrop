@@ -1,0 +1,48 @@
+.wrapper {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+
+    .iconLeft {
+        margin-right: 10px;
+    }
+
+    .iconRight {
+        margin-left: 10px;
+    }
+
+    img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .inner {
+
+        .success {
+            padding: 16px 22px;
+            border-radius: 8px;
+            color: #CDF202;
+        }
+
+        .warning {
+            padding: 16px 22px;
+            border-radius: 8px;
+            color: #FFD102;
+
+        }
+
+        .error {
+            padding: 16px 22px;
+            border-radius: 8px;
+            color: #F30A34;
+
+        }
+
+        .active {
+            padding: 16px 22px;
+            border-radius: 8px;
+            color: #5EBBFF;
+        }
+    }
+}

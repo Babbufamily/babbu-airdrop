@@ -1,0 +1,47 @@
+.wrapper {
+
+    .inner {
+
+        .from--menu--footer--profile {
+            position: fixed;
+            bottom: 0;
+            min-width: 100vw;
+            background: #fff;
+            left: 0;
+            padding: 5px 0px 0px 0px;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+
+            .col-active {
+
+                &.active {
+                    background-color: #FFD102;
+                }
+            }
+
+            .menu-footer--profile {
+                text-align: center;
+                margin: 0px 5px;
+                font-size: 18px;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .from--menu--footer--profile {
+        display: block !important;
+    }
+
+    .sideBar--Profile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .menu-footer--profile {
+        font-size: 16px !important;
+    }
+}

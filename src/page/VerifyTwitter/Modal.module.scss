@@ -1,0 +1,120 @@
+.wrapper {
+
+    .inner {
+
+        .login--twitter {
+            background: linear-gradient(81.21deg, #E0EFFF 0%, #DAEAFF 21.94%, #D8F5E8 48.55%, #DAF6E9 77.52%, #F2FBBE 103.05%);
+            width: 100%;
+            padding: 50px 0px;
+            height: 100%;
+
+            .form--login--tw {
+                background: #fff;
+                border: 2px solid #000000;
+                box-shadow: 0px 4px 0px 0px #0000001A;
+                border-radius: 20px;
+                padding: 24px;
+                margin: 0px auto;
+                width: 35%;
+
+                .header--from--login--tw {
+                    margin-bottom: 24px;
+                }
+
+                .content--from--tw {
+
+                    h5 {
+                        font-size: 24px;
+                        font-weight: 600;
+                        line-height: 30px;
+                        letter-spacing: 0px;
+                    }
+
+                    p {
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 20px;
+                        letter-spacing: 0px;
+                    }
+                }
+
+                .footer--from--login {
+                    h6 {
+                        font-size: 18px;
+                        font-weight: 600;
+                        line-height: 23px;
+                        letter-spacing: 0px;
+                        margin: 0;
+                    }
+
+                    .content--box {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img {
+                            margin-left: 6px;
+                        }
+                    }
+                }
+
+                .Notification {
+                    font-size: 12px;
+                    font-weight: 400;
+                    line-height: 15px;
+                    letter-spacing: 0px;
+                    text-align: center;
+                    color: #F30A34;
+                }
+            }
+        }
+
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+}
+
+@media screen and (max-width: 1200px) {
+    .form--login--tw {
+        width: 45% !important;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .form--login--tw {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .form--login--tw {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .form--login--tw {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .form--login--tw {
+        width: 85% !important;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .form--login--tw {
+        width: 90% !important;
+    }
+}

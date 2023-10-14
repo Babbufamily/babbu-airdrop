@@ -1,0 +1,59 @@
+.wrapper {
+
+    .inner {
+
+        .Marketing {
+            background: linear-gradient(142.6deg, #ABE839 13.23%, #E0FD79 81.58%);
+            padding: 46px 36px;
+
+            h2 {
+                font-size: 56px;
+                font-weight: 700;
+                line-height: 50px;
+                letter-spacing: -1px;
+                text-align: center;
+            }
+
+            p {
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 20px;
+                letter-spacing: -0.01em;
+                text-align: center;
+                margin-top: 16px;
+            }
+
+            .title--box--Marketing {
+                font-size: 28px;
+                font-weight: 600;
+                line-height: 40px;
+                letter-spacing: -1px;
+                margin-left: 12px;
+            }
+
+            .lorem-- {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 23px;
+                letter-spacing: 0px;
+                margin-top: 24px;
+                margin-bottom: 24px;
+            }
+
+            .height--img {
+                max-height: 206px;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .Marketing {
+        padding: 40px 20px !important;
+    }
+
+    h2 {
+        font-size: 32px !important;
+    }
+}

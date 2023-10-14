@@ -1,0 +1,108 @@
+.wrapper {
+
+    .inner {
+
+        .title--social {
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 50px;
+            letter-spacing: -1px;
+        }
+
+        .MORE---FIREND {
+
+            color: #FFD527;
+            text-shadow: -4px 5px 0px #000, -4px -4px 0px #000, 5px -4px 0px #000, 10px 10px 0px #000, 2px 10px 0px #000, 6px 10px 0px #000, 10px 1px 0px #000, 11px 4px 0px #000, 11px 7px 0px #000, 0px -4px 0px #000;
+            font-family: 'Arista Pro Trial';
+            font-size: 110px;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            // -webkit-text-stroke: 5px black;
+        }
+
+        .content--MOREFIREND {
+            margin: 70px 0px 32px 0px;
+        }
+
+        .text {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        .Download---btn {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.9px;
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        .text-decoration {
+            text-decoration: underline !important;
+        }
+    }
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .MORE---FIREND {
+        font-size: 85px !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .Download---btn {
+        margin-top: 0.7rem !important;
+    }
+
+    .MORE---FIREND {
+        font-size: 75px !important;
+        letter-spacing: 2px !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .babbu {
+        font-size: 62px !important;
+    }
+
+    .Download---btn {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+    }
+
+    .MORE---FIREND {
+        font-size: 51px !important;
+        letter-spacing: -1px !important;
+        text-shadow: -3px 3px 0px #000, -3px -3px 0px #000, 1px -3px 0px #000, 3px -3px 0px #000, 7px 2px 0px #000, 8px 5px 0px #000, 4px 7px 0px #000, 7px 7px 0px #000, 7px 4px 0px #000, 0px 7px 0px #000 !important;
+    }
+
+    .text {
+        font-size: 18px !important;
+    }
+}
+
+@media screen and (max-width: 435px) {
+
+    .MORE---FIREND {
+        font-size: 40px !important;
+        letter-spacing: 0px !important;
+        text-shadow: -3px 0px 0px #000, -3px -2px 0px #000, 3px -2px 0px #000, 6px 2px 0px #000, 6px 5px 0px #000, 4px 5px 0px #000, 1px 5px 0px #000, -1px 3px 0px #000, 0px -2px 0px #000 !important
+    }
+
+    .Download---btn {
+        font-size: 19px !important;
+        font-weight: 700 !important;
+    }
+}

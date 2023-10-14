@@ -1,0 +1,99 @@
+.wrapper {
+
+    .inner {
+        margin-bottom: 85px;
+
+        .Overview {
+            padding: 36px 0px 0px 0px;
+            border-left: 2px solid rgba(0, 0, 0, 0.0509803922);
+            padding-left: 20px;
+
+            h2 {
+                font-size: 29px;
+                font-weight: 700;
+                line-height: 50px;
+                letter-spacing: 0px;
+                margin-bottom: 24px;
+            }
+
+            h6 {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 23px;
+                letter-spacing: 0px;
+            }
+
+            .form--table {
+                margin-top: 24px;
+                border: 3px solid #000000;
+                border-radius: 12px;
+                overflow-x: auto;
+                overflow-y: auto;
+                max-height: 304px;
+
+                .table {
+                    width: 100%;
+                    min-width: 992px;
+
+                    thead {
+                        color: #fff;
+                        position: sticky;
+                        top: 0;
+
+                        tr {
+
+                            th {
+                                background: #000000;
+                                padding: 12px 5px;
+                                font-size: 16px;
+                                font-weight: 400;
+                                line-height: 20px;
+                                letter-spacing: 0px;
+
+                            }
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            th {
+                                padding: 14px 5px;
+                            }
+
+                            td {
+                                padding: 14px 5px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .scrollable-table::-webkit-scrollbar {
+                width: 0px;
+                height: 0px;
+            }
+
+            .scrollable-table::-webkit-scrollbar-thumb {
+                background-color: #000000;
+            }
+
+            .scrollable-table::-webkit-scrollbar-track {
+                background-color: #000000;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .Overview {
+        border-left: none !important;
+        padding-left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title--content {
+        display: block !important;
+    }
+
+}

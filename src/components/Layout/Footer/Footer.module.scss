@@ -1,0 +1,39 @@
+.wrapper {
+
+    .inner {
+        padding: 36px 0px 76px 0px;
+        background: #F6F7F2;
+
+        .img--logo--footer {
+            width: auto;
+        }
+
+        .download--app {
+            margin: 24px 0px;
+
+            img {
+                margin-right: 12px;
+            }
+        }
+
+        p {
+            color: #AFB3BB;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .text-decoration {
+            text-decoration: underline !important;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .inner {
+        padding: 36px 20px 76px 20px !important;
+    }
+
+    .img--logo--footer {
+        width: 100% !important;
+    }
+}

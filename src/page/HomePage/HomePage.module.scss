@@ -1,0 +1,73 @@
+.wrapper {
+    .inner {
+        .social {
+            background: linear-gradient(180deg, #A7E7C9 0%, #EEFBF4 98.07%);
+            padding: 46px 0px;
+        }
+
+        .GetStarted {
+
+            background: linear-gradient(289.89deg, #E0EFFF 0.87%, #DAEAFF 19.87%, #D8F5E8 49.21%, #DAF6E9 73.21%, #F2FBBE 90.1%);
+            padding: 46px 0px;
+
+            h2 {
+                font-size: 56px;
+                font-weight: 700;
+                line-height: 70px;
+                letter-spacing: -1px;
+                text-align: center;
+            }
+
+            h5 {
+                font-size: 24px;
+                font-weight: 600;
+                line-height: 30px;
+                letter-spacing: 0px;
+                text-align: center;
+            }
+
+            h6 {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 23px;
+                letter-spacing: 0px;
+                margin-top: 12px;
+            }
+
+            p {
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 23px;
+                letter-spacing: 0px;
+                color: #7E8492;
+                margin: 0;
+                padding-left: 12px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .order--1 {
+        order: 2 !important;
+        margin-top: 30px;
+    }
+
+    .order--2 {
+        order: 1 !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .social {
+        padding: 40px 20px !important;
+    }
+
+    .GetStarted {
+        padding: 40px 20px !important;
+    }
+
+    h2 {
+        font-size: 32px !important;
+    }
+}

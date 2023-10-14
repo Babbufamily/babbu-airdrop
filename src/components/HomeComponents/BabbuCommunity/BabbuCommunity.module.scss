@@ -1,0 +1,32 @@
+.wrapper {
+
+    .inner {
+
+        .BabbuCommunity {
+            padding: 46px 0px;
+
+            h2 {
+                font-size: 56px;
+                font-weight: 700;
+                line-height: 50px;
+                letter-spacing: -1px;
+                text-align: center;
+
+            }
+
+            .size {
+                margin: 0px 175px;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .size {
+        margin: 0px 75px !important;
+    }
+}

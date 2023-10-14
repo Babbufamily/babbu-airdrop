@@ -1,0 +1,43 @@
+.wrapper {
+
+    .inner {
+
+        nav {
+
+            ul {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+
+                li {
+                    text-align: center;
+
+                    .number {
+                        font-size: 56px;
+                        font-weight: 700;
+                        line-height: 70px;
+                        letter-spacing: -1px;
+                    }
+
+                    .text {
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 20px;
+                        letter-spacing: -0.01em;
+                    }
+                }
+            }
+        }
+
+        .download--app {
+            margin-top: 24px;
+        }
+    }
+}
+
+
+@media screen and (max-width:576px) {
+    .download--app--content {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,57 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+@font-face {
+    font-family: 'Arista Pro Trial';
+    src: local('Arista Pro Trial'), url("../fontFamily/Arista-Pro-Fat-trial.ttf") format('woff');
+}
+
+:root {
+    --primary: #FFD102;
+    --Linear: #000;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Readex Pro';
+    // font-family: 'Arista Pro Trial';
+    font-size: 1.6rem;
+}
+
+button,
+input {
+    outline: none;
+    border: none;
+
+    &:focus {
+        border-color: #4096ff !important;
+        box-shadow: 0 0 0 2px rgba(5, 145, 255, .1);
+    }
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+a,
+Link {
+    color: #000000;
+    text-decoration: none;
+
+    &:hover {
+        color: #000 !important;
+    }
+}
