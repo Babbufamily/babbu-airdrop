@@ -3,6 +3,9 @@
     .inner {
 
         .NEWSROOM {
+            .min--height {
+                min-height: 220px;
+            }
 
             padding: 46px 0px;
 
@@ -41,8 +44,32 @@
     }
 }
 
+@media screen and (max-width: 1200px) {
+    .min--height {
+        min-height: 240px !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .NEWSROOM {
+        padding: 20px 10px !important;
+    }
+
+    .content--text {
+        font-size: 16px !important;
+    }
+
+    .min--height {
+        min-height: 270px !important;
+    }
+}
+
 @media screen and (max-width: 576px) {
     .NEWSROOM {
         padding: 40px 20px !important;
+    }
+
+    .min--height {
+        min-height: 220px !important;
     }
 }

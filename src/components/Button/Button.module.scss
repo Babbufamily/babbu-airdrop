@@ -16,11 +16,13 @@
 }
 
 .outLine {
-    background: #FFF5B0;
+    background: #F6F7F2;
     padding: 6px 12px;
     border-radius: 12px;
     font-size: 18px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
 }
 
 .small {
@@ -77,6 +79,9 @@
     letter-spacing: -0.01em;
     margin: 12px 0px;
     min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnProfile {
@@ -117,6 +122,23 @@
     }
 }
 
+.btnVerify100 {
+    padding: 16px 12px;
+    border-radius: 12px;
+    background: #F9DBD5;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .iconLeft {
+        margin-right: 9px;
+    }
+}
 
 .connect {
     border: 2px solid #000000;
@@ -174,5 +196,12 @@
 @media screen and (max-width: 576px) {
     .medium {
         display: none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .hashtag {
+        font-size: 18px !important;
+        margin: 10px 7px 10px 0px !important;
     }
 }

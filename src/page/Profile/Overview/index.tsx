@@ -42,6 +42,8 @@ function Overview() {
     () => AirDropApi.getTotalRewardButipTwitter()
   );
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft(countDownTime));
@@ -58,6 +60,16 @@ function Overview() {
       Number(formatUnits(currentStateInfo?.startRoundTime, 0)) * 1000
     );
   }, [currentStateInfo]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={cx("wrapper")}>
@@ -84,43 +96,84 @@ function Overview() {
                     {moment(countDownTime).format("MM/D/YYYY")}
                   </h6>
                 </div>
-                <div className={cx("row")}>
-                  <BoxGreen
-                    title={"MY $BUTIP"}
-                    content={
-                      numberWithCommas(
-                        userInfo?.babbuBalance +
-                          (userInfo?.buTipsEstimated || 0),
+                {windowWidth > 1200 ? (
+                  <div className={cx("row")}>
+                    <BoxGreen
+                      title={"MY $BUTIP"}
+                      content={
+                        numberWithCommas(
+                          userInfo?.babbuBalance +
+                            (userInfo?.buTipsEstimated || 0),
+                          2
+                        ) || 0
+                      }
+                    />
+                    <BoxGreen
+                      title={"MY POSTED"}
+                      content={totalPostedTwitter?.data?.count || 0}
+                    />
+                    <BoxGreen
+                      title={`TOTAL STATE ${currentState}`}
+                      content={numberWithCommas(
+                        rewardTwitter?.data?.total || 0,
                         2
-                      ) || 0
-                    }
-                  />
-                  <BoxGreen
-                    title={"MY POSTED"}
-                    content={totalPostedTwitter?.data?.count || 0}
-                  />
-                  <BoxGreen
-                    title={`TOTAL STATE ${currentState}`}
-                    content={numberWithCommas(
-                      rewardTwitter?.data?.total || 0,
-                      2
-                    )}
-                  />
-                  <BoxGreen
-                    title={"TIME REMAINING"}
-                    content={`${timeLeft.days || 0}:${timeLeft.hours || 0}:${
-                      timeLeft.minutes || 0
-                    }:${timeLeft.seconds || 0}`}
-                  />
-                </div>
+                      )}
+                    />
+                    <BoxGreen
+                      title={"TIME REMAINING"}
+                      content={`${timeLeft.days || 0}:${timeLeft.hours || 0}:${
+                        timeLeft.minutes || 0
+                      }:${timeLeft.seconds || 0}`}
+                    />
+                  </div>
+                ) : (
+                  <div className={cx("box--green--rps")}>
+                    <div className={cx("box--line--green")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        MY $BUTIP
+                      </div>
+                      <h4>
+                        {numberWithCommas(
+                          userInfo?.babbuBalance +
+                            (userInfo?.buTipsEstimated || 0),
+                          2
+                        ) || 0}
+                      </h4>
+                    </div>
+                    <div className={cx("box--line--green")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        MY POSTED
+                      </div>
+                      <h4>{totalPostedTwitter?.data?.count || 0}</h4>
+                    </div>
+                    <div className={cx("box--line--green")}>
+                      <div
+                        className={cx("title--boxGreen--rps")}
+                      >{`TOTAL STATE ${currentState}`}</div>
+                      <h4>
+                        {numberWithCommas(rewardTwitter?.data?.total || 0, 2)}
+                      </h4>
+                    </div>
+                    <div className={cx("box--line--green--bottom")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        TIME REMAINING
+                      </div>
+                      <h4>
+                        {`${timeLeft.days || 0}:${timeLeft.hours || 0}:${
+                          timeLeft.minutes || 0
+                        }:${timeLeft.seconds || 0}`}
+                      </h4>
+                    </div>
+                  </div>
+                )}
                 <div className={cx("form--table", "scrollable-table")}>
                   <table className={cx("table")}>
                     <thead>
                       <tr>
                         <th scope="col">Ranking</th>
                         <th scope="col">Twitter User</th>
-                        <th scope="col">BuPower</th>
-                        <th scope="col">$BuTip</th>
+                        <th scope="col">Twitter Point</th>
+                        <th scope="col">$Butip on App</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -135,6 +188,7 @@ function Overview() {
                                 target={"_blank"}
                               >
                                 <img
+                                  className={cx("me-2")}
                                   src={"assets/svg/babbu-icon-circle.svg"}
                                   alt={""}
                                 />

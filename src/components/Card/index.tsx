@@ -19,11 +19,13 @@ function Card({
   minHeight,
   maxHeight,
   outLine,
+  process,
 }: InferProps<typeof Card.prototype>) {
   const classes = cx("wrapper", {
     half,
     elm,
     outLine,
+    process,
   });
   return (
     <div className={cx("wrapper")}>
@@ -66,4 +68,5 @@ Card.prototype = {
   boxShadow: PropTypes.string,
   outLine: PropTypes.string,
   maxHeight: PropTypes.string,
+  process: PropTypes.string,
 };

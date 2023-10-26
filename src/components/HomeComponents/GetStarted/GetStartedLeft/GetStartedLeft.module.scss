@@ -32,6 +32,24 @@
         .download--app {
             margin-top: 24px;
         }
+
+        .Guest {
+            color: #fff;
+            margin: 24px 0px 0px;
+            background: rgb(0, 0, 0);
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 0.1019607843);
+            padding: 12px 22px;
+            border-radius: 8px;
+            line-height: 20px;
+            letter-spacing: -0.01em;
+            min-height: 48px;
+
+            &:hover {
+                color: #fff !important;
+            }
+        }
     }
 }
 

@@ -23,8 +23,8 @@ function Footer() {
             <div className={cx("col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12")}>
               {windowWidth > 1200 ? (
                 <img
-                  className={cx("img--logo--footer")}
-                  src="assets/svg/BabbuLogoFooter.svg"
+                  className={cx("img--logo--footer w-50")}
+                  src="assets/svg/BabbuLogoBlackHeader.svg"
                   alt=""
                 />
               ) : (
@@ -88,7 +88,7 @@ function Footer() {
                   </div>
                   <div>
                     <a
-                      href="http://https://lab.babbu.io/support-ticket/"
+                      href="https://lab.babbu.io/support-ticket/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cx("text-decoration")}
@@ -159,6 +159,23 @@ function Footer() {
                         alt=""
                       />
                       Babbu Global Chat
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      href="https://t.me/Babbu_Official"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cx("text-decoration")}
+                      style={{ fontWeight: "600" }}
+                    >
+                      {" "}
+                      <img
+                        className={cx("me-1")}
+                        src="assets/svg/IconTelegram.svg"
+                        alt=""
+                      />
+                      Babbu Channel
                     </a>
                   </div>
                   <div>

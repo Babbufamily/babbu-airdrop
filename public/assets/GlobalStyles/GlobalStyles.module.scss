@@ -1,10 +1,17 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Readex+Pro:wght@400;500;600;700&display=swap');
+
 
 
 @font-face {
     font-family: 'Arista Pro Trial';
     src: local('Arista Pro Trial'), url("../fontFamily/Arista-Pro-Fat-trial.ttf") format('woff');
+}
+
+@font-face {
+    font-family: 'Ruberoid';
+    src: local('Ruberoid'), url("../fontFamily/Ruberoid/Ruberoid-ExtraBold.otf") format('woff');
 }
 
 :root {
@@ -33,10 +40,10 @@ input {
     outline: none;
     border: none;
 
-    &:focus {
-        border-color: #4096ff !important;
-        box-shadow: 0 0 0 2px rgba(5, 145, 255, .1);
-    }
+    // &:focus {
+    //     border-color: #4096ff !important;
+    //     box-shadow: 0 0 0 2px rgba(5, 145, 255, .1);
+    // }
 }
 
 ul {

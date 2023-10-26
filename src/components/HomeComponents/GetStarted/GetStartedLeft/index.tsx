@@ -10,15 +10,18 @@ import {
 import { useConnection } from "../../../../redux/connection";
 import { formatUnits } from "viem";
 import ButtonReuse from "../../../Button/index.tsx";
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 function GetStartedLeft() {
   const { connection } = useConnection();
-  const { currentState, currentStateInfo } = connection;
+  const { jwtToken, currentState, currentStateInfo } = connection;
   const [timeLeft, setTimeLeft] = useState<ITimeLeft>(defaultDataTimeLeft);
   const [text, setText] = useState<string>("IN");
   const [countDownTime, setCountDownTime] = useState<number>(
     new Date().getTime()
   );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,13 +47,21 @@ function GetStartedLeft() {
     }
   }, [currentStateInfo]);
 
+  const handleOnClickStartNow = () => {
+    if (jwtToken) {
+      navigate("/overview");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("inner")}>
         <Card
           border={"5px solid rgba(205, 242, 2, 1)"}
           background={"rgba(247, 255, 210, 1)"}
-          padding={"24px 32px"}
+          padding={"24px 15px"}
           borderRadius={"12px"}
           boxShadow={"0px 4px 0px 0px rgba(0, 0, 0, 0.1)"}
           minHeight={"397px"}
@@ -76,6 +87,7 @@ function GetStartedLeft() {
               </li>
             </ul>
           </nav>
+
           <ButtonReuse
             big
             background={"#000000"}
@@ -83,6 +95,7 @@ function GetStartedLeft() {
             fontSize={"18px"}
             fontWeight={"600"}
             margin={"24px 0px 0px 0px"}
+            onClick={handleOnClickStartNow}
           >
             START {text}
           </ButtonReuse>
@@ -99,7 +112,7 @@ function GetStartedLeft() {
                 )}
               >
                 <img
-                  className={cx("me-3")}
+                  className={cx("me-4")}
                   src="assets/svg/Telephone.svg"
                   alt=""
                 />
@@ -123,11 +136,11 @@ function GetStartedLeft() {
                 href="https://play.google.com/store/apps/details?id=com.airdropapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cx("me-5", "d-flex", "align-items-center")}
+                className={cx("me-4", "d-flex", "align-items-center")}
               >
                 {" "}
                 <img
-                  className={cx("me-3")}
+                  className={cx("me-2")}
                   src="assets/svg/Androi.svg"
                   alt=""
                 />
@@ -140,7 +153,7 @@ function GetStartedLeft() {
                 className={cx("d-flex", "align-items-center")}
               >
                 {" "}
-                <img className={cx("me-3")} src="assets/svg/Ios.svg" alt="" />
+                <img className={cx("me-2")} src="assets/svg/Ios.svg" alt="" />
                 Ios(TestFlight)
               </a>
             </div>

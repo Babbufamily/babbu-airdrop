@@ -110,7 +110,23 @@ const BabbuCityApi = {
     getTotalRewardButipTwitter: async (): Promise<any> => {
         const url = "/user/total-twitter-butips"
         return await axiosClient.get(url);
+    },
+
+    userAuthWeb: async (email: string): Promise<any> => {
+        const url = "/user/web-auth";
+        return await axiosClient.post(url, {email})
+    },
+
+    webAuthEmailConfirmation: async (data: any): Promise<any> => {
+        const url = "/user/web-auth/email-confirmation";
+        return await axiosClient.post(url, data);
+    },
+
+    getUserCount: async (): Promise<any> => {
+        const url = '/user/count';
+        return await axiosClient.get(url);
     }
 };
 
 export default BabbuCityApi;
+

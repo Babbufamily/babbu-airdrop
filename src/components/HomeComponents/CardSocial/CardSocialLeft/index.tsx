@@ -1,11 +1,15 @@
 import classNames from "classnames/bind";
 import styles from "./CardSocialLeft.module.scss";
 import ButtonReuse from "../../../Button";
+// import { useNavigate } from "react-router-dom";
 
-// import { useState } from "react";
 const cx = classNames.bind(styles);
 function CardSocialLeft() {
-  // const [textVisible, setTextVisible] = useState("");
+  // const navigate = useNavigate();
+  // const handleChangeHref = () => {
+  //   navigate("https://docs.babbu.io/");
+  //   console.log(handleChangeHref, "abc");
+  // };
   return (
     <div className={cx("wrapper")}>
       <div className={cx("inner")}>
@@ -14,35 +18,57 @@ function CardSocialLeft() {
             The Power of <br /> Social Interaction
           </div>
           <div
-            style={{ marginTop: "22px" }}
+            style={{ marginTop: "30px" }}
             className={cx("d-flex", "flex-wrap", "mb-5")}
           >
-            <ButtonReuse hashtag background={"#CAFF04"}>
+            <ButtonReuse hashtag background={"#CAFF04"} color={"#000"}>
               #BuTip
             </ButtonReuse>
-            <ButtonReuse hashtag background={"#CAFF04"}>
+            <ButtonReuse hashtag background={"#CAFF04"} color={"#000"}>
               #BuGift
             </ButtonReuse>
-            <ButtonReuse hashtag background={"#FFF500"}>
+            <ButtonReuse hashtag background={"#FFF500"} color={"#000"}>
               #SocialFi
             </ButtonReuse>
           </div>
           <h2 className={cx("MORE---FIREND")}>MORE FRIEND </h2>
-          <p className={cx("text")}>
+          <p className={cx("text", "mt-4")}>
             Affiliate Marketing platform that connects businesses that need to
             promote products & services.
           </p>
-          <ButtonReuse
-            background={"#000000"}
-            padding={"17px 32px"}
-            color={"#FFD527"}
-            borderRadius={"12px"}
-            fontSize={"24px"}
-            fontWeight={"500"}
-            margin={" 40px 0px"}
-          >
-            Earn $BuTip
-          </ButtonReuse>
+          <div className={cx("list--btn")}>
+            <ButtonReuse
+              background={"#000000"}
+              padding={"15px 32px"}
+              color={"#FFD527"}
+              borderRadius={"12px"}
+              border={"2px solid #000000"}
+              fontSize={"24px"}
+              fontWeight={"500"}
+              margin={" 45px 16px 40px 0px"}
+            >
+              Earn $BuTip
+            </ButtonReuse>
+            <ButtonReuse
+              background={"none"}
+              padding={"15px 32px"}
+              color={"#000000"}
+              borderRadius={"12px"}
+              border={"2px solid #000000"}
+              fontSize={"24px"}
+              fontWeight={"500"}
+              margin={" 45px 0px 40px 0px"}
+              boxShadow={"0px 4px 0px 0px #0000001A"}
+            >
+              <a
+                href="https://docs.babbu.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Dreampaper
+              </a>
+            </ButtonReuse>
+          </div>
           <div className={cx("Download---btn")}>
             <span className={cx("d-flex", "align-items-center")}>
               <img
@@ -80,14 +106,19 @@ function CardSocialLeft() {
             style={{
               fontSize: "14px",
               fontWeight: "400",
-              marginTop: "40px",
-              marginBottom: "30px",
+              marginTop: "50px",
             }}
           >
             <p>Trusted by millions and growing...</p>
             <div className={cx("d-flex", "align-items-center")}>
               <p className={cx("m-0", "pe-4")}>Audited by: </p>
-              <img src="assets/svg/Certik.svg" alt="" />
+              <a
+                href="https://skynet.certik.com/projects/babbu"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src="assets/svg/Certik.svg" alt="" />
+              </a>
             </div>
           </div>
         </div>

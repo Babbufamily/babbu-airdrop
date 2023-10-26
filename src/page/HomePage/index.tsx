@@ -10,6 +10,9 @@ import CardSocialRight from "../../components/HomeComponents/CardSocial/CardSoci
 import GetStartedLeft from "../../components/HomeComponents/GetStarted/GetStartedLeft";
 import GetStartedRight from "../../components/HomeComponents/GetStarted/GetStartedRight";
 import BabbuCommunity from "../../components/HomeComponents/BabbuCommunity";
+import Tokenomic from "../../components/HomeComponents/Tokenomic";
+import UserParameters from "../../components/HomeComponents/UserParameters";
+// import UserParameters from "../../components/HomeComponents/UserParameters";
 
 const cx = classNames.bind(styles);
 function HomePage() {
@@ -35,6 +38,11 @@ function HomePage() {
                 <CardSocialRight />
               </div>
             </div>
+          </div>
+        </section>
+         <section>
+          <div className={cx("container")}>
+            <UserParameters />
           </div>
         </section>
         <section>
@@ -66,6 +74,11 @@ function HomePage() {
         </section>
         <section>
           <Process />
+        </section>
+        <section>
+          <div className={cx("container")}>
+            <Tokenomic />
+          </div>
         </section>
         <section>
           <BabbuNetwork />

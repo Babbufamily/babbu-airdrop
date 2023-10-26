@@ -1,6 +1,7 @@
 .wrapper {
 
     .inner {
+        font-family: Ruberoid;
 
         .title {
             font-size: 24px;
@@ -9,11 +10,28 @@
             letter-spacing: 0px;
             text-align: center;
             margin-bottom: 24px;
+
+            span {
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 35px;
+                letter-spacing: 0px;
+                text-align: center;
+            }
+
+            .title--banner--buyNow {
+                font-size: 36px;
+                font-weight: 800;
+                line-height: 36px;
+                letter-spacing: 0px;
+                text-align: center;
+
+            }
         }
 
         .box--main--BUCOIN {
             background: #fff;
-            padding: 45px 24px;
+            padding: 24px;
             border-radius: 12px;
             box-shadow: 0px 4px 0px 0px #0000001A;
             border: 2px solid #000000;
@@ -27,13 +45,13 @@
                 align-items: center;
 
                 span {
-                    margin: 0px 3px;
+                    margin: 0px 6px;
                 }
             }
 
             .communication {
-                font-size: 24px;
-                font-weight: 600;
+                font-size: 18px;
+                font-weight: 700;
                 text-align: center;
                 margin: 26px 0px 12px 0px;
 
@@ -56,7 +74,7 @@
 
             .raised {
                 margin: 12px 0px 0px 0px;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 700;
                 line-height: 20px;
                 letter-spacing: -0.02em;
@@ -65,8 +83,43 @@
                 justify-content: center;
             }
 
+            .progress-- {
+                height: 32px;
+                border-radius: 6px;
+                margin-top: 12px;
+                border: 2px solid #000000;
+            }
+
+            .text-progress {
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 20px;
+                letter-spacing: 0em;
+                text-align: left;
+
+                padding: 6px 32px;
+                position: absolute;
+                top: 0;
+            }
+
+            .btn-coppy {
+                border-radius: 12px;
+                background: var(--Backgraond, #000);
+                padding: 6px 12px;
+                color: var(--1244, #FFF);
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+                margin: 12px 0px 0px 0px;
+            }
+
+            .color-strong {
+                color: #F5A60A;
+            }
+
             .line--BUCOIN--option {
-                margin: 24px 0px;
+                margin: 30px 0px 16px 0px;
 
                 .line--elm {
                     text-align: center;

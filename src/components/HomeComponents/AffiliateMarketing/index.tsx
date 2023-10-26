@@ -58,7 +58,8 @@ function AffiliateMarketing() {
                     <div className={cx("row d-flex align-items-center")}>
                       <div
                         className={cx(
-                          "col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"
+                          "col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12",
+                          "order--2--rps"
                         )}
                       >
                         <div className={cx("d-flex", "align-items-center")}>

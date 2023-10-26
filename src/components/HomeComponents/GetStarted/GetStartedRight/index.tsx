@@ -30,7 +30,7 @@ function GetStartedRight() {
       <div className={cx("inner")}>
         <Card
           elm
-          padding={"24px 32px"}
+          padding={"24px 15px"}
           borderRadius={"16px"}
           border={"2px solid #000000"}
           boxShadow={"0px 4px 0px 0px #0000001A"}

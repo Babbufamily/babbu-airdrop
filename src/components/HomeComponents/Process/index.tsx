@@ -47,13 +47,14 @@ function Process() {
                     "col-xl-3 col-lg-6 col-md-12 col-sm-12 col-12 mt-3"
                   )}
                 >
-                  <Card half minHeight={"490px"}>
+                  <Card half process>
                     <div className={cx("header--processing")}>
                       <img src={items.imgTitle} alt="" />
                       <h5>{items.title}</h5>
                     </div>
                     <div className={cx("text-center", "img--processing")}>
                       <img
+                        style={{ width: "190px", height: "190px" }}
                         className={cx("img--process--")}
                         src={items.imgContent}
                         alt=""

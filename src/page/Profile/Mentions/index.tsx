@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Mentions.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AirDropApi from "../../../axios/AirDropApi.tsx";
 import { useQuery } from "react-query";
 import moment from "moment";
@@ -28,6 +28,17 @@ function Mentions() {
     () => AirDropApi.mentionCount()
   );
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("inner")}>
@@ -50,30 +61,59 @@ function Mentions() {
                   )}
                 >
                   <h2 className={cx("mb-0")}>My Mentions</h2>
-                  {/*<h6 className={cx("m-0")}>01/01/2023 - 10/01/2023</h6>*/}
                 </div>
-                <div className={cx("row")}>
-                  {getDataCountSs && (
-                    <>
-                      <BoxGreen
-                        title={"DAILY KICKBACKS"}
-                        content={dataCountMine?.data["reply-kickback"] || 0}
-                      />
-                      <BoxGreen
-                        title={"DAILY TWEETS"}
-                        content={dataCountMine?.data["original-tweet"] || 0}
-                      />
-                      <BoxGreen
-                        title={"DAILY QUOTES"}
-                        content={dataCountMine?.data?.quote || 0}
-                      />
-                      <BoxGreen
-                        title={"DAILY REPLIES"}
-                        content={dataCountMine?.data?.reply || 0}
-                      />
-                    </>
-                  )}
-                </div>
+                {windowWidth > 1200 ? (
+                  <div className={cx("row")}>
+                    {getDataCountSs && (
+                      <>
+                        <BoxGreen
+                          title={"DAILY KICKBACKS"}
+                          content={dataCountMine?.data["reply-kickback"] || 0}
+                        />
+                        <BoxGreen
+                          title={"DAILY TWEETS"}
+                          content={dataCountMine?.data["original-tweet"] || 0}
+                        />
+                        <BoxGreen
+                          title={"DAILY QUOTES"}
+                          content={dataCountMine?.data?.quote || 0}
+                        />
+                        <BoxGreen
+                          title={"DAILY REPLIES"}
+                          content={dataCountMine?.data?.reply || 0}
+                        />
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className={cx("box--green--rps")}>
+                    <div className={cx("box--line--green")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        DAILY KICKBACKS
+                      </div>
+                      <h4>{dataCountMine?.data["reply-kickback"] || 0}</h4>
+                    </div>
+                    <div className={cx("box--line--green")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        DAILY TWEETS
+                      </div>
+                      <h4>{dataCountMine?.data["original-tweet"] || 0}</h4>
+                    </div>
+                    <div className={cx("box--line--green")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        DAILY QUOTES
+                      </div>
+                      <h4>{dataCountMine?.data?.quote || 0}</h4>
+                    </div>
+                    <div className={cx("box--line--green--bottom")}>
+                      <div className={cx("title--boxGreen--rps")}>
+                        DAILY REPLIES
+                      </div>
+                      <h4>{dataCountMine?.data?.reply || 0}</h4>
+                    </div>
+                  </div>
+                )}
+
                 <div className={cx("form--table", "scrollable-table")}>
                   <table className={cx("table")}>
                     <thead>

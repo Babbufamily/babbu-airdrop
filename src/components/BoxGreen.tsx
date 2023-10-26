@@ -4,7 +4,6 @@ import styles from "../page/Profile/Overview/Overview.module.scss";
 import PropTypes, { InferProps } from "prop-types";
 
 const cx = classNames.bind(styles);
-
 export default function BoxGreen({
   title,
   content,

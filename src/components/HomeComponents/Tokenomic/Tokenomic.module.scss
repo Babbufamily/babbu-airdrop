@@ -1,0 +1,25 @@
+.wrapper {
+
+    .inner {
+        padding: 36px 0px;
+
+        .img--tokenomic {
+            width: 50%;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 50px;
+            letter-spacing: -1px;
+            text-align: center;
+            padding-bottom: 3rem;
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .img--tokenomic {
+        width: 100% !important;
+    }
+}

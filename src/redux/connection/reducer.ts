@@ -1,5 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {IConnectionState} from "../../assets/Interface.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import { IConnectionState } from "../../assets/Interface.ts";
 
 const initialState: IConnectionState = {
     jwtToken: localStorage.getItem('jwtToken'),
@@ -41,7 +41,7 @@ const connectionSlice = createSlice({
         }
     }
 })
-const {actions, reducer} = connectionSlice;
+const { actions, reducer } = connectionSlice;
 export const {
     setJwtToken,
     setUserInfo,

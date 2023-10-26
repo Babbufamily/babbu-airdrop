@@ -15,6 +15,11 @@ function FooterProfile() {
       contentText: "Profile",
       path: "/profile",
     },
+    // {
+    //   img: "assets/svg/ClaimRewa.svg",
+    //   contentText: "Claim",
+    //   path: "/ClaimReward",
+    // },
     {
       img: "assets/svg/Mentision.svg",
       contentText: "Mentions",

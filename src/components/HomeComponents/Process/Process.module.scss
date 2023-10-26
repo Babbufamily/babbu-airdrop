@@ -34,9 +34,9 @@
             .img--processing {
                 margin: 24px 0px;
 
-                img {
-                    max-height: 180px;
-                }
+                // img {
+                //     max-height: 180px;
+                // }
             }
 
             h6 {
@@ -45,6 +45,37 @@
                 line-height: 23px;
                 letter-spacing: 0px;
             }
+        }
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .header--processing {
+        h5 {
+            font-size: 17px !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .img--processing {
+        margin: 0px;
+
+        img {
+            width: 100% !important;
+            height: 190px !important;
+        }
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .img--processing {
+        margin: 0px;
+
+        img {
+            width: 100% !important;
+            height: 180px !important;
         }
     }
 }

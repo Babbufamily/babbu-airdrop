@@ -119,8 +119,8 @@ function VerifyTwitter() {
               </a>
               <a
                 href={
-                statusActiveTask?.data?.isRetweet === false ?
-                  `https://twitter.com/intent/tweet?${paramQuoteTwitter}` : "#"
+                  statusActiveTask?.data?.isRetweet === false ?
+                    `https://twitter.com/intent/tweet?${paramQuoteTwitter}` : "#"
                 }
                 target={statusActiveTask?.data?.isRetweet === false ? "_blank" : ""}
               >

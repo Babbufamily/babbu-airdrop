@@ -19,6 +19,17 @@
 
                 img {
                     width: 100%;
+                    transition: filter .45s cubic-bezier(.3, .4, .1, 1), opacity .45s cubic-bezier(.3, .4, .1, 1);
+                    -webkit-filter: grayscale(100%);
+                    filter: grayscale(100%);
+                    opacity: 0.55;
+                    transition: 0.7s;
+
+                    &:hover {
+                        opacity: 1;
+                        filter: none;
+                        -webkit-filter: none;
+                    }
                 }
             }
         }

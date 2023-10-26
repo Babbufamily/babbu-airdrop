@@ -9,8 +9,10 @@ import {
   calculateTimeLeft,
   defaultDataTimeLeft,
   getToastConfig,
+  minimizeText,
   numberWithCommas,
   PRESALE_CONTRACT_ADDRESS,
+  raiseStates,
   USDT_CONTRACT_ADDRESS_BSC,
   USDT_DECIMAL_BSC,
 } from "../../../../assets/Constant.tsx";
@@ -20,6 +22,7 @@ import PreSaleAbi from "../../../../assets/abi/PresaleAbi.json";
 import {
   approveAmount,
   buyTokenPresale,
+  getCurrentRoundInfo,
   getHistoryPurchaseAmount,
   getIsWhitelisted,
   getUsdtBalance,
@@ -27,20 +30,18 @@ import {
 import { toast, ToastOptions } from "react-toastify";
 import { useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { waitForTransaction } from "@wagmi/core";
-// import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
+import ModalHowToBuy from "./ModalHowToBuy.tsx";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function CardSocialRight() {
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
   const { connection, onSetUsdtBalance } = useConnection();
   const { chain } = useNetwork();
   const { openChainModal } = useChainModal();
   const { openConnectModal } = useConnectModal();
+  const navigate = useNavigate();
   const { jwtToken, currentStateInfo, currentState, usdtBalance, userInfo } =
     connection;
   const [timeLeft, setTimeLeft] = useState<ITimeLeft>(defaultDataTimeLeft);
@@ -50,9 +51,13 @@ function CardSocialRight() {
   const [usdtValue, setUsdtValue] = useState<string>();
   const [buCoinValue, setBuCoinValue] = useState<string>();
   const { address, isConnected } = useAccount();
-  const [text, setText] = useState<string>();
+  const [show, setShow] = useState(false);
   const [totalAmountBuCountPurchase, setTotalAmountPurchase] =
     useState<number>(0);
+  const [saleRoundPrice, setSaleRoundPrice] = useState<string>("0");
+  const [nextRoundPrice, setNextRoundPrice] = useState<string>("0");
+  const [percentUsdtRoundReceived, setPercentUsdtRoundReceived] = useState(0);
+  const [targetRaised, setTargetRaised] = useState(0);
 
   const {
     data: usdtRaised,
@@ -108,6 +113,21 @@ function CardSocialRight() {
   }, [address, chain]);
 
   useEffect(() => {
+    if (currentState === 0) return;
+    const startTime =
+      Number(formatUnits(currentStateInfo?.startRoundTime, 0)) * 1000;
+    let nexState = currentState;
+    const currentTime = new Date().getTime();
+    nexState = startTime > currentTime ? currentState : currentState + 1;
+    getCurrentRoundInfo(PRESALE_CONTRACT_ADDRESS, nexState).then((r: any) => {
+      setNextRoundPrice(
+        (1 / Number(formatUnits(r.saleRoundPrice, 0))).toString()
+      );
+    });
+    getTargetRaised();
+  }, [currentState]);
+
+  useEffect(() => {
     if (!currentStateInfo) return setCountDownTime(new Date().getTime());
     const currentTime = new Date().getTime();
     const startTime =
@@ -116,12 +136,15 @@ function CardSocialRight() {
       Number(formatUnits(currentStateInfo?.endRoundTime, 0)) * 1000;
     if (startTime > currentTime) {
       setCountDownTime(startTime);
-      setText("to");
+      // setText("to");
     }
     if (startTime < currentTime && currentTime < endTime) {
       setCountDownTime(endTime);
-      setText("end");
+      // setText("end");
     }
+    const salePrice = Number(formatUnits(currentStateInfo?.saleRoundPrice, 0));
+    setSaleRoundPrice((1 / salePrice).toString());
+    getPerUsdtRoundReviced();
   }, [currentStateInfo]);
 
   useEffect(() => {
@@ -135,6 +158,18 @@ function CardSocialRight() {
     const salePrice = Number(formatUnits(currentStateInfo?.saleRoundPrice, 0));
     setBuCoinValue(Number(usdtValue) * salePrice + "");
   }, [usdtValue]);
+
+  const handleChangeModal = () => {
+    setShow(!show);
+  };
+
+  const getTargetRaised = () => {
+    let amount = 0;
+    for (let i = 0; i <= currentState; i++) {
+      amount += raiseStates[i];
+    }
+    setTargetRaised(amount);
+  };
 
   const getAmountBuCoinPurchase = async () => {
     if (!address) return;
@@ -150,7 +185,18 @@ function CardSocialRight() {
   };
 
   const approve = async () => {
+    if (address?.toLowerCase() !== userInfo?.walletAddress?.toLowerCase()) {
+      showModal(
+        `The connected address does not match the originally registered address ${minimizeText(
+          userInfo?.walletAddress
+        )}`,
+        "Error"
+      );
+      return;
+    }
     if (!Number(usdtValue)) return showModal(`Invalid amount approve`, "Error");
+    if (Number(usdtValue) > Number(usdtBalance))
+      return showModal(`Not enough USDT`, "Error");
     if (
       Number(formatUnits(amountAllowance as bigint, USDT_DECIMAL_BSC)) <
       Number(usdtValue)
@@ -186,7 +232,7 @@ function CardSocialRight() {
           USDT_CONTRACT_ADDRESS_BSC,
           address as string
         );
-        onSetUsdtBalance(Number(formatUnits(usdtBalance, 6)));
+        onSetUsdtBalance(Number(formatUnits(usdtBalance, USDT_DECIMAL_BSC)));
         showModal(`Buy Success TxHash ${res.hash}`, "Success");
       } catch (e: any) {
         showModal(`${e.toString()}`, "Error");
@@ -201,6 +247,15 @@ function CardSocialRight() {
 
   const validateBuy = async () => {
     const usdtNumber = Number(usdtValue);
+    if (address?.toLowerCase() !== userInfo?.walletAddress?.toLowerCase()) {
+      showModal(
+        `The connected address does not match the originally registered address ${minimizeText(
+          userInfo?.walletAddress
+        )}`,
+        "Error"
+      );
+      return false;
+    }
     const maxPurchaseUsdt = Number(
       formatUnits(maxPurchasePerUser as bigint, USDT_DECIMAL_BSC)
     );
@@ -269,386 +324,395 @@ function CardSocialRight() {
         formatUnits(amountAllowance as bigint, USDT_DECIMAL_BSC)
       );
       if (!Number(usdtValue)) {
-        return "BUY";
+        return "BUY NOW";
       }
       if (numberAllowance >= Number(usdtValue)) {
-        return "BUY";
+        return "BUY NOW";
       } else {
         return "APPROVE";
       }
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(userInfo?.walletAddress as string)
+      .then(() => {
+        showModal(`Copied`, "Success");
+      });
+  };
+
+  const getPerUsdtRoundReviced = () => {
+    const roundId = Number(formatUnits(currentStateInfo?.roundId, 0));
+    const totalUsdtRoundReceived = Number(
+      formatUnits(currentStateInfo?.totalUsdtRoundReceived, USDT_DECIMAL_BSC)
+    );
+    const percent = (totalUsdtRoundReceived * 100) / raiseStates[roundId];
+    setPercentUsdtRoundReceived(percent);
+  };
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("inner")}>
         <div className={cx("title")}>
-          LAST CHANCE TO BUY! $BUCOIN STAGE {currentState}
+          <div
+            className={cx("d-flex align-items-center justify-content-center")}
+          >
+            <img src="assets/svg/iconTitleBannerLeft.svg" alt="" />
+            <span className={cx("title--banner--buyNow")}>BUY NOW</span>
+            <img src="assets/svg/IconTitleBannerRight.svg" alt="" />
+          </div>
+          {/* LAST CHANCE TO BUY! $BUCOIN STAGE {currentState} */}
+          <span>BEFORE PRICE INCREASES!</span>
         </div>
-        <div className={cx("box--main--BUCOIN")}>
-          <div
-            className={cx(
-              "d-flex",
-              "align-items-center",
-              "justify-content-between"
-            )}
-          >
-            <div className={cx("title--icont")}>
-              <img src="assets/svg/LogoIconMainNew.svg" alt="" />
-              <span>BUCOIN</span>
-              <img src="assets/svg/ArrowTOp.svg" alt="" />
-            </div>
-            <ButtonReuse
-              background={"#000000"}
-              boxShadow={" 0px 4px 0px 0px #0000001A"}
-              borderRadius={"8px"}
-              color={"#fff"}
-              fontSize={"16px"}
-              fontWeight={"500"}
-              padding={"7px 10px"}
-              display={"flex"}
-              alignItems={"center"}
-              onClick={openChainModal}
+        <div>
+          <div className={cx("box--main--BUCOIN")}>
+            <div
+              className={cx(
+                "d-flex",
+                "align-items-center",
+                "justify-content-between"
+              )}
             >
-              Buy with
-              {chain?.network === "bsc" && (
-                <img
-                  className={cx("ms-2 me-2")}
-                  src="assets/svg/BNB.svg"
-                  alt=""
-                />
-              )}
-              {chain?.network === "optimism" && (
-                <img
-                  className={cx("ms-2 me-2")}
-                  src="assets/svg/op-icon.svg"
-                  alt=""
-                />
-              )}
-              {chain?.network === "arbitrum" && (
-                <img
-                  className={cx("ms-2 me-2")}
-                  src="assets/svg/ab-icon.svg"
-                  alt=""
-                />
-              )}
-              {chain?.network === "matic" && (
-                <img
-                  className={cx("ms-2 me-2")}
-                  src="assets/svg/pl-icon.svg"
-                  alt=""
-                />
-              )}
-              {chain?.network === "bsc-testnet" && (
-                <img
-                  className={cx("ms-2 me-2")}
-                  src="assets/svg/BNB.svg"
-                  alt=""
-                />
-              )}
-              {chain?.nativeCurrency?.name}
-            </ButtonReuse>
-          </div>
-          <div className={cx("communication")}>
-            <strong>$BuCoin</strong> {text} launch on multiple tier{" "}
-            {currentState} exchanges in
-          </div>
-          <div className={cx("countdown--box")}>
-            <div className={cx("row")}>
-              <div className={cx("col-3", "text-center")}>
-                <div className={cx("box--time--countdown")}>
-                  {timeLeft.days || 0}d
-                </div>
+              <div className={cx("title--icont")}>
+                <img src="assets/svg/LogoIconMainNew.svg" alt="" />
+                <span>BUCOIN</span>
+                <img src="assets/svg/ArrowTOp.svg" alt="" />
               </div>
-              <div className={cx("col-3", "text-center")}>
-                <div className={cx("box--time--countdown")}>
-                  {timeLeft.hours || 0}h
-                </div>
-              </div>
-              <div className={cx("col-3", "text-center")}>
-                <div className={cx("box--time--countdown")}>
-                  {timeLeft.minutes || 0}m
-                </div>
-              </div>
-              <div className={cx("col-3", "text-center")}>
-                <div className={cx("box--time--countdown")}>
-                  {timeLeft.seconds || 0}s
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={cx("raised")}>
-            <img className={cx("me-2")} src="assets/svg/USD.svg" alt="" />$
-            {getTotalUsdtRaised
-              ? numberWithCommas(formatUnits(usdtRaised as bigint, 6), 2)
-              : 0}{" "}
-            Raised
-          </div>
-          <div className={cx("raised")}>
-            Your
-            <img
-              className={cx("me-2")}
-              src="assets/svg/LogoIconMainNew.svg"
-              alt=""
-              width={23}
-              height={23}
-              style={{ paddingLeft: 3 }}
-            />
-            {`$${numberWithCommas(totalAmountBuCountPurchase + "", 2)} `}
-            Raised
-          </div>
-          <div className={cx("line--BUCOIN--option")}>
-            <div className={cx("line--elm")}>
-              <div
-                className={cx(
-                  "d-flex",
-                  "justify-content-center",
-                  "align-items-center"
-                )}
-              >
-                <span>
-                  <ButtonReuse outLine color={"#000000"}>
-                    <img src="assets/svg/LogoIconMainNew.svg" alt="" /> $
-                    {numberWithCommas(
-                      formatUnits(currentStateInfo?.saleRoundPrice || "0", 0),
-                      0
-                    )}
-                  </ButtonReuse>{" "}
-                </span>
-                <span>=</span>
-                <span>
-                  <ButtonReuse outLine color={"#000000"}>
-                    <img src="assets/svg/USD.svg" alt="" /> 1
-                  </ButtonReuse>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className={cx("row")}>
-            {/* <div className={cx("col-4", "text-center")}>
               <ButtonReuse
-                small
-                width={"100%"}
-                color={"#FFD527"}
                 background={"#000000"}
-              >
-                <img className={cx("me-3")} src="assets/svg/ETH.svg" alt="" />
-                ETH
-              </ButtonReuse>
-            </div> */}
-            <div className={cx("col-6", "text-center")}>
-              <ButtonReuse small width={"100%"} color={"#000000"}>
-                <img className={cx("me-3")} src="assets/svg/USD.svg" alt="" />
-                USDT
-              </ButtonReuse>
-            </div>
-            <div className={cx("col-6", "text-center")}>
-              <ButtonReuse small width={"100%"} color={"#000000"} disableClass>
-                <img className={cx("me-3")} src="assets/svg/CARD.svg" alt="" />
-                Card
-              </ButtonReuse>
-            </div>
-          </div>
-          <div className={cx("row")}>
-            <div className={cx("col-6")}>
-              <div className={cx("exchange")}>
-                <div
-                  className={cx(
-                    "d-flex",
-                    "align-items-center",
-                    "justify-content-between",
-                    "mt-5",
-                    "mb-3"
-                  )}
-                >
-                  <div>
-                    <strong>USDT</strong>
-                    <span> to pay</span>
-                  </div>
-                  <div>
-                    <ButtonReuse mini onClick={handleBuyMax}>
-                      Max
-                    </ButtonReuse>
-                  </div>
-                </div>
-                <div className={cx("box--input")}>
-                  <input
-                    type="number"
-                    className={cx("input--icon--right")}
-                    placeholder="0.05"
-                    value={usdtValue}
-                    onChange={handleChangeUsdt}
-                  />
-                  <img
-                    className={cx("icon--input")}
-                    src="assets/svg/USD.svg"
-                    alt=""
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={cx("col-6")}>
-              <div className={cx("exchange")}>
-                <div
-                  className={cx(
-                    "d-flex",
-                    "align-items-center",
-                    "justify-content-end",
-                    "mt-5",
-                    "mb-3"
-                  )}
-                >
-                  <div>
-                    <strong>BUCOIN</strong>
-                    <span> receive:</span>
-                  </div>
-                </div>
-                <div className={cx("box--input")}>
-                  <input
-                    type="number"
-                    className={cx("input--icon--right")}
-                    placeholder="0.05"
-                    value={buCoinValue}
-                    onChange={handleChangeBuCoin}
-                  />
-                  <img
-                    className={cx("icon--input")}
-                    src="assets/svg/LogoIconMainNew.svg"
-                    alt=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={cx("row")}>
-            <div className={cx("col-12")}>
-              <ButtonReuse
-                big
-                background={"#000000"}
+                boxShadow={" 0px 4px 0px 0px #0000001A"}
+                borderRadius={"8px"}
                 color={"#fff"}
-                onClick={async () => {
-                  const startTime =
-                    Number(
-                      formatUnits(currentStateInfo?.startRoundTime || "0", 0)
-                    ) * 1000;
-                  if (!jwtToken) return;
-                  if (
-                    (!isConnected || !userInfo?.walletAddress) &&
-                    openConnectModal
-                  )
-                    return openConnectModal();
-                  if (currentState === 0 || startTime > new Date().getTime())
-                    return showModal("No presale start", "Error");
-                  if (getAllowanceSs) {
-                    const numberAllowance = Number(
-                      formatUnits(amountAllowance as bigint, USDT_DECIMAL_BSC)
-                    );
-                    if (numberAllowance >= Number(usdtValue)) {
-                      await handleBuy();
-                    } else {
-                      await approve();
-                    }
-                  }
-                }}
+                fontSize={"16px"}
+                fontWeight={"500"}
+                padding={"7px 10px"}
+                display={"flex"}
+                alignItems={"center"}
+                onClick={openChainModal}
               >
-                {getButtonTitle()}
+                Buy with
+                {chain?.network === "bsc" && (
+                  <img
+                    className={cx("ms-2 me-2")}
+                    src="assets/svg/BNB.svg"
+                    alt=""
+                  />
+                )}
+                {chain?.network === "optimism" && (
+                  <img
+                    className={cx("ms-2 me-2")}
+                    src="assets/svg/op-icon.svg"
+                    alt=""
+                  />
+                )}
+                {chain?.network === "arbitrum" && (
+                  <img
+                    className={cx("ms-2 me-2")}
+                    src="assets/svg/ab-icon.svg"
+                    alt=""
+                  />
+                )}
+                {chain?.network === "matic" && (
+                  <img
+                    className={cx("ms-2 me-2")}
+                    src="assets/svg/pl-icon.svg"
+                    alt=""
+                  />
+                )}
+                {chain?.network === "bsc-testnet" && (
+                  <img
+                    className={cx("ms-2 me-2")}
+                    src="assets/svg/BNB.svg"
+                    alt=""
+                  />
+                )}
+                {chain?.nativeCurrency?.name}
               </ButtonReuse>
             </div>
-            <div className={cx("col-12")}>
-              <ButtonReuse big background={"#F6F7F2"} color={"#000000"}>
-                How To BUY?
-                <img className={cx("ms-2")} src="assets/svg/HOW.svg" alt="" />
-              </ButtonReuse>
+            <div className={cx("communication")}>
+              <span style={{ opacity: 0.5 }}> STAGE #1: SOLD OUT.</span>
+              <br />
+              <span>STAGE #2: BUY IN BEFORE PRICE INCREASES!</span>
             </div>
-
-            {/* Modal HOW TO BUY Ở ĐÂY NHÉ */}
-            {/* <div className={cx("how-to-buy-modal")}>
-              <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-              </Button>
-
-              <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                  <Modal.Title>
-                    <div
-                      className={cx(
-                        "d-flex align-items-center justify-content-between"
-                      )}
-                    >
-                      <img src="assets/svg/CloseButton.svg" alt="" />
-                      <img src="assets/svg/BabbuLogoBlackHeader.svg" alt="" />
-                    </div>
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <h5
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "600",
-                      color: "#101010",
-                    }}
-                  >
-                    HOW TO BUY?
-                  </h5>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "400",
-                      marginBottom: "24px",
-                    }}
-                  >
-                    Take charge and buy $BUCOIN in presale using ETH, BNB, USDT,
-                    or bank card before it lists on DEX.
-                  </p>
-                  <nav>
-                    <ol style={{ fontSize: "16px", fontWeight: "400" }}>
-                      <li>
-                        Send ETH or BNB to your wallet and ape in using your
-                        preferred chain. Use the presale widget above to swap
-                        for $BUCOIN.
-                      </li>
-                      <li>
-                        You can also buy $BUCOIN tokens with USDT (ERC-20 or
-                        BEP-20). Use the USDT option and swap your desired
-                        amount.
-                      </li>
-                      <li>
-                        Prefer plastic? No problem. Have your own crypto wallet
-                        address on hand and order $BUCOIN tokens using your bank
-                        card.
-                      </li>
-                    </ol>
-                  </nav>
-                </Modal.Body>
-                <Modal.Footer>
-                  <button
-                    style={{
-                      width: "100%",
-                      padding: "16px 0px",
-                      borderRadius: "12px",
-                      background: "#000",
-                      color: "#fff",
-                    }}
-                  >
-                    OK
-                  </button>
-                </Modal.Footer>
-              </Modal>
-            </div> */}
-            {/* Modal HOW TO BUY Ở ĐÂY NHÉ */}
-          </div>
-          <div
-            className={cx(
-              "d-flex",
-              "align-items-center",
-              "justify-content-center"
+            <div className={cx("countdown--box")}>
+              <div className={cx("row")}>
+                <div className={cx("col-3", "text-center")}>
+                  <div className={cx("box--time--countdown")}>
+                    {timeLeft.days || 0}d
+                  </div>
+                </div>
+                <div className={cx("col-3", "text-center")}>
+                  <div className={cx("box--time--countdown")}>
+                    {timeLeft.hours || 0}h
+                  </div>
+                </div>
+                <div className={cx("col-3", "text-center")}>
+                  <div className={cx("box--time--countdown")}>
+                    {timeLeft.minutes || 0}m
+                  </div>
+                </div>
+                <div className={cx("col-3", "text-center")}>
+                  <div className={cx("box--time--countdown")}>
+                    {timeLeft.seconds || 0}s
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={cx("raised")}>
+              <img className={cx("me-2")} src="assets/svg/USD.svg" alt="" />$
+              {getTotalUsdtRaised
+                ? numberWithCommas(
+                    formatUnits(usdtRaised as bigint, USDT_DECIMAL_BSC),
+                    2
+                  )
+                : 0}{" "}
+              Raised / ${numberWithCommas(targetRaised.toString(), 0)}
+            </div>
+            {Number(nextRoundPrice) > 0 && (
+              <div className={cx("position-relative")}>
+                <ProgressBar
+                  className={cx("progress--")}
+                  now={percentUsdtRoundReceived}
+                  variant="SOME_NAME"
+                />
+                <div className={cx("text-progress")}>
+                  Next Stage Price: ${numberWithCommas(nextRoundPrice, 3)}
+                </div>
+              </div>
             )}
-          >
-            <p className={cx("m-0", "pe-1")}>Powered by</p>
-            <img src="assets/svg/Web3icon.svg" alt="" />
+            {userInfo?.walletAddress && (
+              <>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    margin: "20px 0px",
+                  }}
+                  className={cx(
+                    "d-flex align-items-center justify-content-center"
+                  )}
+                >
+                  Your Purchased ={" "}
+                  {numberWithCommas(totalAmountBuCountPurchase + "", 2)}{" "}
+                  <img src="/assets/svg/LogoIconMainNew.svg" alt="" />
+                </div>
+                <p
+                  style={{ fontSize: "12px", fontWeight: "500" }}
+                  className={cx("text-center mb-0")}
+                >
+                  Refer your friends to participate in the presale
+                </p>
+                <div className={cx("text-center")}>
+                  <button className={cx("btn-coppy")} onClick={handleCopy}>
+                    <div className={cx("d-flex align-items-center")}>
+                      {minimizeText(userInfo?.walletAddress)}{" "}
+                      <img
+                        className={cx("ms-2")}
+                        src="/assets/svg/IconCoppy.svg"
+                        alt=""
+                      />
+                    </div>
+                  </button>
+                </div>
+              </>
+            )}
+            <div className={cx("line--BUCOIN--option")}>
+              <div className={cx("line--elm")}>
+                <div
+                  className={cx(
+                    "d-flex",
+                    "justify-content-center",
+                    "align-items-center"
+                  )}
+                >
+                  <span>
+                    <ButtonReuse outLine color={"#000000"}>
+                      1{" "}
+                      <img
+                        className={cx("ms-2")}
+                        src="assets/svg/LogoIconMainNew.svg"
+                        alt=""
+                      />
+                    </ButtonReuse>{" "}
+                  </span>
+                  <span>=</span>
+                  <span>
+                    <ButtonReuse outLine color={"#000000"}>
+                      {numberWithCommas(saleRoundPrice)}
+                      <img
+                        className={cx("ms-2")}
+                        src="assets/svg/USD.svg"
+                        alt=""
+                      />
+                    </ButtonReuse>
+                  </span>
+                </div>
+              </div>
+            </div>
+            {userInfo?.walletAddress && (
+              <p style={{ marginBottom: "16px" }} className={cx("text-center")}>
+                <strong className={cx("color-strong")}>USDT </strong>Balance: $
+                {numberWithCommas(usdtBalance, 3)}
+              </p>
+            )}
+            <div className={cx("row")}>
+              <div className={cx("col-6", "text-center")}>
+                <ButtonReuse small width={"100%"} color={"#000000"}>
+                  <img className={cx("me-3")} src="assets/svg/USD.svg" alt="" />
+                  USDT
+                </ButtonReuse>
+              </div>
+              <div className={cx("col-6", "text-center")}>
+                <ButtonReuse
+                  small
+                  width={"100%"}
+                  color={"#000000"}
+                  disableClass
+                >
+                  <img
+                    className={cx("me-3")}
+                    src="assets/svg/CARD.svg"
+                    alt=""
+                  />
+                  Card
+                </ButtonReuse>
+              </div>
+            </div>
+            <div className={cx("row")}>
+              <div className={cx("col-6")}>
+                <div className={cx("exchange")}>
+                  <div
+                    style={{ margin: "16px 0px 8px 0px" }}
+                    className={cx(
+                      "d-flex",
+                      "align-items-center",
+                      "justify-content-between"
+                    )}
+                  >
+                    <div>
+                      <strong>USDT</strong>
+                      <span> to pay</span>
+                    </div>
+                    <div>
+                      <ButtonReuse mini onClick={handleBuyMax}>
+                        Max
+                      </ButtonReuse>
+                    </div>
+                  </div>
+                  <div className={cx("box--input")}>
+                    <input
+                      type="number"
+                      className={cx("input--icon--right")}
+                      placeholder="0.05"
+                      value={usdtValue}
+                      onChange={handleChangeUsdt}
+                    />
+                    <img
+                      className={cx("icon--input")}
+                      src="assets/svg/USD.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={cx("col-6")}>
+                <div className={cx("exchange")}>
+                  <div
+                    style={{ margin: "18px 0px 6px 0px" }}
+                    className={cx(
+                      "d-flex",
+                      "align-items-center",
+                      "justify-content-end"
+                    )}
+                  >
+                    <div>
+                      <strong>BUCOIN</strong>
+                      <span> receive:</span>
+                    </div>
+                  </div>
+                  <div className={cx("box--input")}>
+                    <input
+                      type="number"
+                      className={cx("input--icon--right")}
+                      placeholder="0.05"
+                      value={buCoinValue}
+                      onChange={handleChangeBuCoin}
+                    />
+                    <img
+                      className={cx("icon--input")}
+                      src="assets/svg/LogoIconMainNew.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={cx("row")}>
+              <div className={cx("col-12")}>
+                <ButtonReuse
+                  big
+                  background={"#000000"}
+                  color={"#fff"}
+                  margin={"16px 0px"}
+                  onClick={async () => {
+                    const startTime =
+                      Number(
+                        formatUnits(currentStateInfo?.startRoundTime || "0", 0)
+                      ) * 1000;
+                    if (!jwtToken) return;
+                    if (!userInfo?.walletAddress) return navigate("/profile");
+                    if (!isConnected && openConnectModal)
+                      return openConnectModal();
+                    if (currentState === 0 || startTime > new Date().getTime())
+                      return showModal("No presale start", "Error");
+                    if (getAllowanceSs) {
+                      const numberAllowance = Number(
+                        formatUnits(amountAllowance as bigint, USDT_DECIMAL_BSC)
+                      );
+                      if (numberAllowance >= Number(usdtValue)) {
+                        await handleBuy();
+                      } else {
+                        await approve();
+                      }
+                    }
+                  }}
+                >
+                  {getButtonTitle()}
+                </ButtonReuse>
+              </div>
+              <div className={cx("col-12")}>
+                <ButtonReuse
+                  big
+                  background={"#F6F7F2"}
+                  color={"#000000"}
+                  margin={"0px 0px 16px 0px"}
+                  onClick={handleChangeModal}
+                >
+                  How To BUY?
+                  <img className={cx("ms-2")} src="assets/svg/HOW.svg" alt="" />
+                </ButtonReuse>
+              </div>
+            </div>
+            <div
+              className={cx(
+                "d-flex",
+                "align-items-center",
+                "justify-content-center"
+              )}
+            >
+              <p className={cx("m-0", "pe-1")}>Powered by</p>
+              <img src="assets/svg/Web3icon.svg" alt="" />
+            </div>
           </div>
         </div>
       </div>
+      <ModalHowToBuy
+        show={show}
+        handleChange={handleChangeModal}
+        maxPurchaseAmount={maxPurchasePerUser}
+        minPurchaseAmount={minPurchasePerUser}
+      />
     </div>
   );
 }

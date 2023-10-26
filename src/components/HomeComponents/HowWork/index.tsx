@@ -22,7 +22,7 @@ function HowWork() {
                 display={"flex"}
                 alignItems={"center"}
               >
-                <img src="assets/svg/LogoIconMainNew.svg" alt="" />
+                <img src="/assets/svg/LogoIconMainNew.svg" alt="" />
                 <span className={cx("ms-2 me-3 text-dark")}>Bucoin</span>
                 <ButtonReuse
                   background={"#fff"}

@@ -8,6 +8,7 @@ import { useConnection } from "../redux/connection";
 import Overview from "../page/Profile/Overview/index.tsx";
 import Mentions from "../page/Profile/Mentions/index.tsx";
 import ProfileCpn from "../page/Profile/Profile/index.tsx";
+// import ClaimReward from "../page/Profile/ClaimReward/index.tsx";
 
 function MainRoutes() {
   const { connection } = useConnection();
@@ -33,6 +34,7 @@ function MainRoutes() {
           <Route path="/overview" element={<Overview />} />
           <Route path="/mentions" element={<Mentions />} />
           <Route path="/profile" element={<ProfileCpn />} />
+          {/* <Route path="/ClaimReward" element={<ClaimReward />} /> */}
         </>
       )}
     </Routes>

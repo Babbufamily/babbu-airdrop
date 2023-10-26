@@ -48,6 +48,12 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .order--2--rps {
+        order: 2 !important;
+    }
+}
+
 @media screen and (max-width: 576px) {
     .Marketing {
         padding: 40px 20px !important;

@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./SideBarProfile.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const navItems = [
@@ -14,7 +14,11 @@ const navItems = [
     icon: "assets/svg/Profile.svg",
     path: "/profile",
   },
-
+  // {
+  //   text: "Claim Reward",
+  //   icon: "assets/svg/ClaimRewa.svg",
+  //   path: "/ClaimReward",
+  // },
   {
     text: "Mentions",
     icon: "assets/svg/Mentision.svg",
@@ -23,6 +27,11 @@ const navItems = [
 ];
 
 function SideBarProfile() {
+  const navigate = useNavigate();
+
+  const handleChangePath = (path: string) => {
+    navigate(path);
+  };
   const location: any = useLocation();
   const currentPathName = location?.pathname ?? "";
   return (
@@ -33,13 +42,14 @@ function SideBarProfile() {
             {navItems.map((item) => {
               return (
                 <li
+                  onClick={() => handleChangePath(item.path)}
                   key={item.path}
                   className={currentPathName === item.path ? cx("active") : ""}
                 >
-                  <Link to={item.path}>
+                  <div>
                     <img src={item.icon} alt={item.text} />
                     {item.text}
-                  </Link>
+                  </div>
                 </li>
               );
             })}

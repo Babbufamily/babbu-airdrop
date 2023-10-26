@@ -1,16 +1,16 @@
-import { signMessage } from "@wagmi/core";
-import { readContract, writeContract } from '@wagmi/core'
+import {signMessage} from "@wagmi/core";
+import {readContract, writeContract} from '@wagmi/core'
 import PreSaleAbi from '../../assets/abi/PresaleAbi.json';
-import { addressWagmi } from "../../assets/Interface.ts";
-import { formatUnits, parseUnits } from 'viem'
+import {addressWagmi} from "../../assets/Interface.ts";
+import {formatUnits, parseUnits} from 'viem'
 import {USDT_DECIMAL_BSC} from "../../assets/Constant.tsx";
-import { erc20ABI } from "wagmi";
+import {erc20ABI} from "wagmi";
 
 
 const SignMessage = async () => {
     const message = "BabbuCity SignIn with Web3 Api. In " + new Date().getTime();
-    const signature = await signMessage({ message });
-    return { message, signature }
+    const signature = await signMessage({message});
+    return {message, signature}
 }
 
 
@@ -89,7 +89,7 @@ const getAmountAllowance = async (contractAddress: string, ownerAddress: string,
     })
 }
 
-const getHistoryPurchaseAmount = async (contractAddress: string, address: string) : Promise<any> => {
+const getHistoryPurchaseAmount = async (contractAddress: string, address: string): Promise<any> => {
     return readContract({
         address: contractAddress as addressWagmi,
         abi: PreSaleAbi,

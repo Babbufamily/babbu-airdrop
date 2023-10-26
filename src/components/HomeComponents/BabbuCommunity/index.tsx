@@ -6,18 +6,23 @@ function BabbuCommunity() {
   const listImgCommunity = [
     {
       imgCommunity: "assets/svg/Galxe.svg",
+      link: "https://galxe.com/babbucity",
     },
     {
       imgCommunity: "assets/svg/magicSquare.svg",
+      link: "https://magic.store/app/babbu-city",
     },
     {
       imgCommunity: "assets/svg/GiveAway.svg",
+      link: "https://giveaway.com/en/profile/qABJTpC6dT3SMdlD",
     },
     {
       imgCommunity: "assets/svg/Quest.svg",
+      link: "https://questn.com/",
     },
     {
       imgCommunity: "assets/svg/Drapdata.svg",
+      link: "https://dappradar.com/dapp/babbu-city",
     },
   ];
   return (
@@ -37,7 +42,9 @@ function BabbuCommunity() {
                       "text-center"
                     )}
                   >
-                    <img src={items.imgCommunity} alt="" />
+                    <a href={items.link} target={"_blank"}>
+                      <img src={items.imgCommunity} alt="" />
+                    </a>
                   </div>
                 ))}
               </div>

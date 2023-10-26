@@ -32,6 +32,7 @@ function ButtonReuse({
   iconRight,
   btnProfile,
   btnVerify,
+  btnVerify100,
   connect,
   BtnOverview,
   disableClass,
@@ -48,13 +49,14 @@ function ButtonReuse({
     alignItems,
     justifyContent,
     btnProfile,
+    btnVerify100,
     btnVerify,
     connect,
     BtnOverview,
     disableClass,
   });
   return (
-    <div className={cx("wrapper")}>
+    <div className={cx("wrapper")} onClick={onClick}>
       <div className={cx("inner")}>
         <button
           style={{
@@ -73,7 +75,6 @@ function ButtonReuse({
             justifyContent: justifyContent as string,
           }}
           className={classes}
-          onClick={onClick}
           type={"button"}
         >
           {iconLeft && (
@@ -122,6 +123,7 @@ ButtonReuse.propTypes = {
   iconRight: PropTypes.string,
   btnProfile: PropTypes.string,
   btnVerify: PropTypes.bool,
+  btnVerify100: PropTypes.bool,
   connect: PropTypes.bool,
   BtnOverview: PropTypes.bool,
   disableClass: PropTypes.bool,

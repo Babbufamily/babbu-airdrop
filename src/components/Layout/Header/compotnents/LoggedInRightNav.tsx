@@ -7,6 +7,7 @@ import { useAccount, useDisconnect, useNetwork } from "wagmi";
 import { useChainModal } from "@rainbow-me/rainbowkit";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { CiWarning } from "react-icons/ci";
 
 const cx = classNames.bind(styles);
 export default function LoggedInRightNav() {
@@ -60,21 +61,22 @@ export default function LoggedInRightNav() {
           borderRadius={"8px"}
           border={"2px solid #000000"}
           onClick={openChainModal}
+          color={"red"}
         >
-          {chain?.network === "bsc" && (
+          {chain?.network === "bsc" ? (
             <img src="assets/svg/BNBDARK.svg" alt="" />
-          )}
-          {chain?.network === "optimism" && (
+          ) : chain?.network === "optimism" ? (
             <img src="assets/svg/op-icon.svg" alt="" />
-          )}
-          {chain?.network === "arbitrum" && (
+          ) : chain?.network === "arbitrum" ? (
             <img src="assets/svg/ab-icon.svg" alt="" />
-          )}
-          {chain?.network === "matic" && (
+          ) : chain?.network === "matic" ? (
             <img src="assets/svg/pl-icon.svg" alt="" />
-          )}
-          {chain?.network === "bsc-testnet" && (
+          ) : chain?.network === "bsc-testnet" ? (
             <img src="assets/svg/BNBDARK.svg" alt="" />
+          ) : (
+            <div>
+              <CiWarning size={"22px"} />
+            </div>
           )}
         </ButtonReuse>
       )}

@@ -21,3 +21,25 @@
         }
     }
 }
+
+@media screen and (max-width: 1400px) {
+    .process {
+        min-height: 445px;
+    }
+
+}
+
+
+@media screen and (max-width: 1200px) {
+    .process {
+        min-height: 400px;
+    }
+
+}
+
+@media screen and (max-width: 992px) {
+    .process {
+        min-height: auto;
+    }
+
+}

@@ -31,16 +31,16 @@ function ProfileCpn() {
   const inputFile = useRef<HTMLInputElement>(null);
 
   const { data: kycInfo, isSuccess: getKycInfoSs } = useQuery(
-    ["airDropApi.kycInfo"],
-    () => AirDropApi.getKycMine(),
-    {
-      refetchOnWindowFocus: "always",
-    }
+      ["airDropApi.kycInfo"],
+      () => AirDropApi.getKycMine(),
+      {
+        refetchOnWindowFocus: "always",
+      }
   );
 
   const { data: statusActiveTask, isSuccess: getActiveSs } = useQuery(
-    ["airDropApi.checkKycTwitter"],
-    () => AirDropApi.checkKycTwitter()
+      ["airDropApi.checkKycTwitter"],
+      () => AirDropApi.checkKycTwitter()
   );
 
   useEffect(() => {
@@ -114,27 +114,27 @@ function ProfileCpn() {
   const kycTelegram = async () => {
     // @ts-ignore
     window.Telegram.Login.auth(
-      {
-        bot_id: "6546635625",
-        request_access: true,
-      },
-      async (data: any) => {
-        if (!data) {
-          showModal("Connect to your telegram account failed", "Error");
-          return;
-        }
-        const res = await AirDropApi.kycTelegram(data);
-        if (res.status === 200) {
-          showModal("Connect to your telegram account", "Success");
-        } else {
-          if (typeof res.error === "string") {
-            showModal(res.error, "Error");
-          } else {
-            showModal(res.error[0], "Error");
+        {
+          bot_id: "6546635625",
+          request_access: true,
+        },
+        async (data: any) => {
+          if (!data) {
+            showModal("Connect to your telegram account failed", "Error");
+            return;
           }
+          const res = await AirDropApi.kycTelegram(data);
+          if (res.status === 200) {
+            showModal("Connect to your telegram account", "Success");
+          } else {
+            if (typeof res.error === "string") {
+              showModal(res.error, "Error");
+            } else {
+              showModal(res.error[0], "Error");
+            }
+          }
+          await AirDropApi.addToWhiteList();
         }
-        await AirDropApi.addToWhiteList();
-      }
     );
   };
 
@@ -157,216 +157,228 @@ function ProfileCpn() {
     const resp = await airDropApi.uploadImageFile(formData);
     if (resp.status !== 200)
       return showModal(
-        "Change Avatart failed. Please try again later",
-        "Error"
+          "Change Avatart failed. Please try again later",
+          "Error"
       );
     const result = await AirDropApi.updateBabbuName({
       babbuAvatar: resp.data.downloadUrl,
     });
     if (result.status !== 200)
       return showModal(
-        "Change Avatart failed. Please try again later",
-        "Error"
+          "Change Avatart failed. Please try again later",
+          "Error"
       );
     onSetUserInfo(result.data);
     showModal("Change Avatar Success", "Success");
   };
 
   return (
-    <div className={cx("wrapper")}>
-      <div className={cx("inner")}>
-        <div className={cx("container")}>
-          <div className={cx("row")}>
-            <div
-              className={cx("col-xl-3 col-lg-3 col-md-12  col-sm-12 col-12")}
-            >
-              <SideBarProfile />
-            </div>
-            <div
-              className={cx(
-                "col-xl-9 col-lg-9 col-md-12  col-sm-12 col-12 ps-4 pe-4"
-              )}
-            >
-              <div className={cx("profileCpn")}>
-                <div className={cx("pd")}>
-                  {address?.toLowerCase() !==
-                    userInfo?.walletAddress?.toLowerCase() && (
-                    <ButtonReuse btnVerify margin={"0px 0px 10px 0px"}>
-                      <div className={cx("d-flex align-items-center")}>
-                        <img
-                          className={cx("me-3")}
-                          src="assets/svg/Warning.svg"
-                          alt=""
-                        />
-                        The connected address does not match the originally
-                        registered address{" "}
-                        {minimizeText(userInfo?.walletAddress)}
-                      </div>
-                      <img src="assets/svg/ArrowRight.svg" alt="" />
-                    </ButtonReuse>
+      <div className={cx("wrapper")}>
+        <div className={cx("inner")}>
+          <div className={cx("container")}>
+            <div className={cx("row")}>
+              <div
+                  className={cx("col-xl-3 col-lg-3 col-md-12  col-sm-12 col-12")}
+              >
+                <SideBarProfile />
+              </div>
+              <div
+                  className={cx(
+                      "col-xl-9 col-lg-9 col-md-12  col-sm-12 col-12 ps-4 pe-4"
                   )}
-                  {!kycInfo?.data?.isTwitterActive && (
-                    <ButtonReuse
-                      btnVerify
-                      onClick={() => {
-                        navigate("/verify_twitter");
-                      }}
-                    >
-                      <div className={cx("d-flex align-items-center")}>
-                        <img
-                          className={cx("me-3")}
-                          src="assets/svg/Warning.svg"
+              >
+                <div className={cx("profileCpn")}>
+                  <div className={cx("pd")}>
+                    {address?.toLowerCase() !==
+                        userInfo?.walletAddress?.toLowerCase() && (
+                            <ButtonReuse btnVerify margin={"0px 0px 10px 0px"} onClick={openConnectModal}>
+                              <div
+                                  className={cx("d-flex align-items-center")}
+                                  style={{ maxWidth: "100%" }}
+                              >
+                                <div style={{ flexShrink: 0 }}>
+                                  <img
+                                      className={cx("me-1")}
+                                      src="assets/svg/Warning.svg"
+                                      alt=""
+                                  />
+                                </div>
+                                <div
+                                    style={{ flexGrow: 1, maxWidth: "calc(100% - 40px)" }}
+                                >
+                                  <div
+                                      style={{
+                                        overflow: "hidden",
+                                        wordWrap: "break-word",
+                                      }}
+                                  >
+                                    Your blockchain wallet address does not match your
+                                    current Account. <br />
+                                    {userInfo?.walletAddress}
+                                  </div>
+                                </div>
+                                <div style={{ flexShrink: 0 }}>
+                                  <img src="assets/svg/ArrowRight.svg" alt="" />
+                                </div>
+                              </div>
+                            </ButtonReuse>
+                        )}
+                    {!kycInfo?.data?.isTwitterActive && (
+                        <ButtonReuse
+                            btnVerify
+                            onClick={() => {
+                              navigate("/verify_twitter");
+                            }}
+                        >
+                          <div className={cx("d-flex align-items-center")}>
+                            <img
+                                className={cx("me-3")}
+                                src="assets/svg/Warning.svg"
+                                alt=""
+                            />
+                            Cannot claim tokens until you have activated your
+                            account!
+                          </div>
+                          <img src="assets/svg/ArrowRight.svg" alt="" />
+                        </ButtonReuse>
+                    )}
+                    <h5>Edit Profile</h5>
+                    <div className={cx("information--user")}>
+                      <img
+                          src={
+                            userInfo?.babbuAvatar
+                                ? userInfo?.babbuAvatar
+                                : "assets/svg/avartaMyprofile.svg"
+                          }
+                          style={{ width: 58, height: 58, borderRadius: "50%" }}
                           alt=""
-                        />
-                        Cannot claim tokens until you have activated your
-                        account!
-                      </div>
-                      <img src="assets/svg/ArrowRight.svg" alt="" />
-                    </ButtonReuse>
-                  )}
-                  <h5>Edit Profile</h5>
-                  <div className={cx("information--user")}>
-                    <img
-                      src={
-                        userInfo?.babbuAvatar
-                          ? userInfo?.babbuAvatar
-                          : "assets/svg/avartaMyprofile.svg"
-                      }
-                      style={{ width: 58, height: 58, borderRadius: "50%" }}
-                      alt=""
-                    />
-                    <input
-                      type="file"
-                      ref={inputFile}
-                      style={{ display: "none" }}
-                      onChange={handleChangeImage}
-                    />
-                    <div>
-                      <p>
-                        {babbuName
-                          ? babbuName
-                          : `BUID's ${minimizeText(userInfo?._id)}`}
-                      </p>
-                      <ButtonReuse
-                        background={"#000000"}
-                        padding={"6px 16px"}
-                        color={"#fff"}
-                        fontSize={"14px"}
-                        fontWeight={"500"}
-                        display={"flex"}
-                        alignItems={"center"}
-                        borderRadius={"12px"}
-                        iconLeft={"assets/svg/ChangeAvatar.svg"}
-                        onClick={handleClick}
-                      >
-                        Change Avatar
-                      </ButtonReuse>
-                    </div>
-                  </div>
-                  <div className={cx("connect")}>
-                    <div>
-                      <h3>Social Connection:</h3>
-                      <div className={cx("babbu--name--input")}>
-                        <input
-                          className={cx("w-100", "mw-530")}
-                          type="text"
-                          value={babbuName}
-                          placeholder="babbu_name"
-                          onChange={handleChangeBabbuName}
-                        />
+                      />
+                      <input
+                          type="file"
+                          ref={inputFile}
+                          style={{ display: "none" }}
+                          onChange={handleChangeImage}
+                      />
+                      <div>
+                        <p>
+                          {babbuName
+                              ? babbuName
+                              : `BUID's ${minimizeText(userInfo?._id)}`}
+                        </p>
+                        <ButtonReuse
+                            background={"#000000"}
+                            padding={"6px 16px"}
+                            color={"#fff"}
+                            fontSize={"14px"}
+                            fontWeight={"500"}
+                            display={"flex"}
+                            alignItems={"center"}
+                            borderRadius={"12px"}
+                            iconLeft={"assets/svg/ChangeAvatar.svg"}
+                            onClick={handleClick}
+                        >
+                          Change Avatar
+                        </ButtonReuse>
                       </div>
                     </div>
-                    <div className={cx("form--btn--connect")}>
-                      <ButtonReuse
-                        big
-                        background={"#000000"}
-                        fontSize={"16px"}
-                        fontWeight={"700"}
-                        color={"#fff"}
-                        onClick={updateBabbuProfile}
-                      >
-                        Confirm
-                      </ButtonReuse>
+                    <div className={cx("connect")}>
+                      <div>
+                        <h3>Social Connection:</h3>
+                        <div className={cx("babbu--name--input")}>
+                          <input
+                              className={cx("w-100", "mw-530")}
+                              type="text"
+                              value={babbuName}
+                              placeholder="babbu_name"
+                              onChange={handleChangeBabbuName}
+                          />
+                        </div>
+                      </div>
+                      <div className={cx("form--btn--connect")}>
+                        <ButtonReuse
+                            big
+                            background={"#000000"}
+                            fontSize={"16px"}
+                            fontWeight={"700"}
+                            color={"#fff"}
+                            onClick={updateBabbuProfile}
+                        >
+                          Confirm
+                        </ButtonReuse>
 
-                      <h3>Social Connection:</h3>
-                      {kycInfo?.data?.twitterUsername ? (
-                        <ButtonReuse
-                          connect={true}
-                          color={"#fff"}
-                          background={"#000000"}
-                          iconRight={"assets/svg/TWBLUE.svg"}
-                        >
-                          {kycInfo?.data?.twitterUsername}
-                        </ButtonReuse>
-                      ) : (
-                        <ButtonReuse
-                          connect
-                          iconRight={"assets/svg/TWBLUE.svg"}
-                          onClick={kycTwitter}
-                        >
-                          Connect with Twitter
-                        </ButtonReuse>
-                      )}
-                      {kycInfo?.data?.telegramUsername ? (
-                        <ButtonReuse
-                          connect={true}
-                          color={"#fff"}
-                          background={"#000000"}
-                          iconRight={"assets/svg/TELEGRAM.svg"}
-                        >
-                          {kycInfo?.data?.telegramUsername}
-                        </ButtonReuse>
-                      ) : (
-                        <ButtonReuse
-                          connect
-                          iconRight={"assets/svg/TELEGRAM.svg"}
-                          onClick={kycTelegram}
-                        >
-                          Connect with Telegram
-                        </ButtonReuse>
-                      )}
+                        <h3>Social Connection:</h3>
+                        {kycInfo?.data?.twitterUsername ? (
+                            <ButtonReuse
+                                connect={true}
+                                color={"#fff"}
+                                background={"#000000"}
+                                iconRight={"assets/svg/TWBLUE.svg"}
+                            >
+                              {kycInfo?.data?.twitterUsername}
+                            </ButtonReuse>
+                        ) : (
+                            <ButtonReuse
+                                connect
+                                iconRight={"assets/svg/TWBLUE.svg"}
+                                onClick={kycTwitter}
+                            >
+                              Connect with Twitter
+                            </ButtonReuse>
+                        )}
+                        {kycInfo?.data?.telegramUsername ? (
+                            <ButtonReuse
+                                connect={true}
+                                color={"#fff"}
+                                background={"#000000"}
+                                iconRight={"assets/svg/TELEGRAM.svg"}
+                            >
+                              {kycInfo?.data?.telegramUsername}
+                            </ButtonReuse>
+                        ) : (
+                            <ButtonReuse
+                                connect
+                                iconRight={"assets/svg/TELEGRAM.svg"}
+                                onClick={kycTelegram}
+                            >
+                              Connect with Telegram
+                            </ButtonReuse>
+                        )}
 
-                      <h3>Wallet Connection:</h3>
-                      {userInfo?.walletAddress ? (
-                        <ButtonReuse
-                          connect
-                          iconRight={"assets/svg/RainbowProfile.svg"}
-                          color={"#fff"}
-                          background={"#000000"}
-                          onClick={() => {
-                            if (!isConnected && openConnectModal)
-                              return openConnectModal();
-                          }}
-                        >
-                          {isConnected
-                            ? minimizeText(address as string)
-                            : "Connect Wallet"}
-                        </ButtonReuse>
-                      ) : (
-                        <ButtonReuse
-                          connect
-                          iconRight={"assets/svg/RainbowProfile.svg"}
-                          onClick={handleConnectWeb3}
-                        >
-                          Connect Wallet
-                        </ButtonReuse>
-                      )}
+                        <h3>Wallet Connection:</h3>
+                        {userInfo?.walletAddress ? (
+                            <ButtonReuse
+                                connect
+                                iconRight={"assets/svg/RainbowProfile.svg"}
+                                color={"#fff"}
+                                background={"#000000"}
+                            >
+                              {minimizeText(userInfo?.walletAddress as string)}
+                            </ButtonReuse>
+                        ) : (
+                            <ButtonReuse
+                                connect
+                                iconRight={"assets/svg/RainbowProfile.svg"}
+                                onClick={handleConnectWeb3}
+                            >
+                              Connect Wallet
+                            </ButtonReuse>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <FooterProfile />
         </div>
-        <FooterProfile />
+        {getKycInfoSs && (
+            <ModalElm
+                kycTwitter={kycTwitter}
+                show={!kycInfo?.data?.twitterUsername}
+            />
+        )}
       </div>
-      {getKycInfoSs && (
-        <ModalElm
-          kycTwitter={kycTwitter}
-          show={!kycInfo?.data?.twitterUsername}
-        />
-      )}
-    </div>
   );
 }
 

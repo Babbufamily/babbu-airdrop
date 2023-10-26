@@ -47,11 +47,13 @@ function BabbuNetwork() {
             <div className={cx("row", "justify-content-evenly")}>
               {ListBabbuNetwork.map((items, index) => (
                 <div key={index} className={cx("rps--5", "mt-4")}>
-                  <Card outLine maxHeight={"310px"} minHeight={"310px"}>
-                    <img src={items.img} alt="" />
-                    <div className={cx("title")}>{items.title}</div>
-                    <div className={cx("link--netword")}>{items.link}</div>
-                    <p>{items.describe}</p>
+                  <Card outLine >
+                    <div className={cx('height--rps')}>
+                      <img src={items.img} alt="" />
+                      <div className={cx("title")}>{items.title}</div>
+                      <div className={cx("link--netword")}>{items.link}</div>
+                      <p>{items.describe}</p>
+                    </div>
                   </Card>
                 </div>
               ))}

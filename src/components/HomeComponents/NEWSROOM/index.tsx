@@ -15,16 +15,14 @@ const ListNEWSROOM = [
     day: "Dec 13, 2023",
   },
   {
-    img: "assets/svg/CointTelegrap.svg",
-    content:
-      "Breathing life into Web3 ecosystem: Babbu City and to drive Web3 Adoption",
+    img: "assets/svg/yahoo.svg",
+    content: "Babbu NFT Passport publish on the BabbuCity World.",
     imgTime: "assets/svg/Oclock.svg",
     day: "Dec 13, 2023",
   },
   {
-    img: "assets/svg/CointTelegrap.svg",
-    content:
-      "Breathing life into Web3 ecosystem: Babbu City and to drive Web3 Adoption",
+    img: "assets/svg/BscNew.svg",
+    content: "BABBU City Tip Claim Reward on App.",
     imgTime: "assets/svg/Oclock.svg",
     day: "Dec 13, 2023",
   },
@@ -93,11 +91,20 @@ export default class NEWSROOM extends Component {
                 {ListNEWSROOM.map((items, index) => (
                   <div className={cx("me-4", "w-auto")} key={index}>
                     <Card half>
-                      <img className={cx("w-100")} src={items.img} alt="" />
-                      <div className={cx("content--text")}>{items.content}</div>
-                      <div className={cx("time")}>
-                        <img src={items.imgTime} alt="" />
-                        {items.day}
+                      <div className={cx("min--height")}>
+                        <img
+                          style={{ minHeight: "84px", maxHeight: "84px" }}
+                          className={cx("w-100")}
+                          src={items.img}
+                          alt=""
+                        />
+                        <div className={cx("content--text")}>
+                          {items.content}
+                        </div>
+                        <div className={cx("time")}>
+                          <img src={items.imgTime} alt="" />
+                          {items.day}
+                        </div>
                       </div>
                     </Card>
                   </div>

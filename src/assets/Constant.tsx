@@ -69,15 +69,21 @@ const getToastConfig = (status: string) => {
       paddingLeft: 10,
       paddingTop: 5,
       paddingBottom: 5,
-      top: 50,
+      top: 80,
     },
   };
 };
 
-const PRESALE_CONTRACT_ADDRESS = "0xfc3Eb85CbBe5DDebAF4Da14517714597606D9E07";
-const USDT_CONTRACT_ADDRESS_BSC = "0x73A4F337CA3479Bdb2FB0Cfed5B946D86D60903b";
-const USDT_DECIMAL_BSC = 6;
+const PRESALE_CONTRACT_ADDRESS = "0xd6B158300CA218B956DA881471527d78D81536c9";
+const USDT_CONTRACT_ADDRESS_BSC = "0x55d398326f99059fF775485246999027B3197955";
+const BUCOIN_CONTRACT_ADDRESS_BSC = "0x2415bfA4E39FE7F55eC145cf1c111F31470B701A";
+const USDT_DECIMAL_BSC = 18;
 const BU_COIN_DECIMAL_BSC = 18;
+
+// const PRESALE_CONTRACT_ADDRESS = "0xfc3Eb85CbBe5DDebAF4Da14517714597606D9E07";
+// const USDT_CONTRACT_ADDRESS_BSC = "0x73A4F337CA3479Bdb2FB0Cfed5B946D86D60903b";
+// const USDT_DECIMAL_BSC = 6;
+// const BU_COIN_DECIMAL_BSC = 18;
 
 const numberWithCommas = (number: string, fixedNumber = 4) => {
   if (!number) return "0";
@@ -86,6 +92,8 @@ const numberWithCommas = (number: string, fixedNumber = 4) => {
     maximumFractionDigits: fixedNumber,
   });
 };
+
+const raiseStates = [0, 676_200, 777_630, 894_275, 1_028_416, 1_182_678, 1_360_080, 1_564_092]
 
 export {
   textShareTwitter,
@@ -98,9 +106,8 @@ export {
   PRESALE_CONTRACT_ADDRESS,
   USDT_DECIMAL_BSC,
   BU_COIN_DECIMAL_BSC,
+  BUCOIN_CONTRACT_ADDRESS_BSC,
   numberWithCommas,
   USDT_CONTRACT_ADDRESS_BSC,
+  raiseStates,
 };
-
-
-

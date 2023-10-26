@@ -13,7 +13,7 @@
                 border-radius: 36px;
                 padding: 36px 0px;
                 margin: 40px auto;
-                width: 75%;
+                width: 60%;
 
                 .img--title {
                     margin-left: 6rem;
@@ -153,6 +153,11 @@
                     img {
                         margin: 0px 8px;
                         cursor: pointer;
+                        transition: transform 0.3s ease-in-out;
+
+                        &:hover {
+                            transform: translateY(-10px);
+                        }
                     }
                 }
 
@@ -204,10 +209,18 @@
     }
 }
 
+@media screen and (max-width:1440px) {
+    .from--login {
+        width: 70% !important;
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .from--login {
-        width: 90% !important;
+        width: 75% !important;
     }
+
+
 
 }
 
